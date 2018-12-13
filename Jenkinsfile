@@ -5,10 +5,15 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: "test_id", keyFileVariable: 'keyfile')]) {                 
                 sh '''
-		env
 		ssh -T -i $keyfile ubuntu@ec2-18-222-202-164.us-east-2.compute.amazonaws.com
-		env
-		uname -a
+		cd /home/ubuntu/django-project/
+		git checkout master
+		git pull
+		chmod +x update.sh
+		sudo systemctl stop django-project
+		./update.sh
+		sudo systemctl start django-project
+		
 		'''            
                }
             }
