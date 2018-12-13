@@ -4,7 +4,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 withCredentials([file(credentialsId: "$test_id", variable: 'ID')]) {                 
-                env
+                sh 'env'
                 
                }
             }
